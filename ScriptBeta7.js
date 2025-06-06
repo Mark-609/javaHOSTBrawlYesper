@@ -107,7 +107,7 @@ function initializeBots() {
         } else if (selectedCharacter.name === 'Boer Bert') {
             botHealth = 6000; // Bots have 6000 health ONLY when playing with Boer Bert
         } else if (selectedCharacter.name === 'Hank') {
-            botHealth = 7100; // Bots have 4000 health ONLY when playing with Hank
+            botHealth = 7100; // Bots have 7100 health ONLY when playing with Hank
         }
     }
     for (let i = 0; i < numBots - 1; i++) { // One less bot
@@ -498,6 +498,9 @@ function checkGameOver() {
         } else if (selectedCharacter.name === 'Boer Bert' && !characters.some(char => char.name === 'Hank')) {
             // Unlock Hank if playing as Boer Bert
             characters.push({ name: 'Hank', color: 'blue', damage: 2000, health: 5000 });
+        } else if (selectedCharacter.name === 'Hank' && !characters.some(char => char.name === 'Fang')) {
+            // Unlock Fang if playing as Hank
+            characters.push({ name: 'Fang', color: 'red', damage: 1360, health: 4300 });
         }
     }
 }
@@ -760,7 +763,8 @@ document.addEventListener('keydown', (event) => {
                     { name: 'Poco', color: 'purple', damage: 836, health: 3700 },
                     { name: 'Kwark', color: 'white', damage: 500, health: 3000 },
                     { name: 'Boer Bert', color: 'brown', damage: 1700, health: 4200 },
-                    { name: 'Hank', color: 'blue', damage: 2000, health: 5000 }
+                    { name: 'Hank', color: 'blue', damage: 2000, health: 5000 },
+                    { name: 'Fang', color: 'red', damage: 1360, health: 4300 }
                 ];
                 allChars.forEach(char => {
                     if (!characters.some(c => c.name === char.name)) {
