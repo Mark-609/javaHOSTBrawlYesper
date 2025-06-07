@@ -11,8 +11,8 @@ if (!window.supabase) {
 }
 
 // 2. Supabase configuration (Replace with your real values!)
-const SUPABASE_URL = 'https://bsjvvsfggqucovimbtub.supabase.co';  // <-- CHANGE THIS
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzanZ2c2ZnZ3F1Y292aW1idHViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkyMTg3OTcsImV4cCI6MjA2NDc5NDc5N30.enXUXKZtR9-JVG8h6SRmobo_Jk6d1i8-lBHysgYh1-M'; // <-- CHANGE THIS
+const SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co';  // <-- CHANGE THIS
+const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY'; // <-- CHANGE THIS
 
 let supabase = null;
 function initSupabase() {
@@ -569,4 +569,12 @@ function handleCollisions() {
     bots.forEach(bot => {
         if (!bot.isPlayer) {
             const playerBot = bots.find(bot => bot.isPlayer);
-            const distance = Math.hypot(pla
+            const distance = Math.hypot(playerBot.x - bot.x, playerBot.y - bot.y);
+            if (distance < playerRadius + botRadius) {
+                playerBot.health -= 0.1;
+            }
+        }
+    });
+}
+
+// (Game loop, victo
