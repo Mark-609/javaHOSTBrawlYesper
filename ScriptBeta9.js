@@ -1,3 +1,5 @@
+// No login functionality present. This is the full ScriptBeta9.js with no login or authentication logic.
+
 const canvas = document.getElementById('gameCanvas');
 canvas.width = 1200; // Increased canvas width
 canvas.height = 800; // Increased canvas height
@@ -501,9 +503,7 @@ function checkGameOver() {
         } else if (selectedCharacter.name === 'Hank' && !characters.some(char => char.name === 'Fang')) {
             // Unlock Fang if playing as Hank
             characters.push({ name: 'Fang', color: 'red', damage: 1360, health: 4300 });
-        }
-        // Mr. Bacon unlock (add this after Fang or at the end)
-        else if (selectedCharacter.name === 'Hank' && !characters.some(char => char.name === 'Mr. Bacon')) {
+        } else if (selectedCharacter.name === 'Hank' && !characters.some(char => char.name === 'Mr. Bacon')) {
             // Unlock Mr. Bacon if playing as Hank
             characters.push({ name: 'Mr. Bacon', color: 'pink', damage: 1750, health: 4900 });
         }
