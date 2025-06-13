@@ -25,8 +25,7 @@ const projectiles = [];
 const botRadius = 15;
 let bots = [];
 const numBots = 8;
-// BOT SPEED INCREASED for faster bots
-let botSpeed = 0.8; // Increased from 0.5 to 0.8
+let botSpeed = 0.8; // Increased from 0.5 to 0.8 for faster bots
 let botAttackRange = 150;
 let botDamage = 200; // Increased bot damage
 const botShootCooldown = 1500; // 1.5 second cooldown
@@ -56,7 +55,6 @@ function drawPlayer() {
     ctx.fillStyle = selectedCharacter ? selectedCharacter.color : 'lightblue'; // Use selected character color
     ctx.fill();
     ctx.closePath();
-    //drawHealthBar(playerX, playerY - playerRadius - 10, playerHealth, 2800, 'blue'); // Remove health bar
 }
 
 // Function to draw a health bar
@@ -96,37 +94,34 @@ function initializeBots() {
     let botHealth = 2000; // Default bot health
     if (selectedCharacter) {
         if (selectedCharacter.name === 'Colt') {
-            botHealth = 2500; // Bots have 2500 health ONLY when playing with Colt
+            botHealth = 2500;
         } else if (selectedCharacter.name === 'El Primo') {
-            botHealth = 2800; // Bots have 2800 health ONLY when playing with El Primo
+            botHealth = 2800;
         } else if (selectedCharacter.name === 'Jessie') {
-            botHealth = 6900; // Bots have 6900 health ONLY when playing with Jessie
+            botHealth = 6900;
         } else if (selectedCharacter.name === 'Poco') {
-            botHealth = 5800; // Bots have 5800 health ONLY when playing with Poco
+            botHealth = 5800;
         } else if (selectedCharacter.name === 'Kwark') {
-            botHealth = 3000; // Bots have 3000 health ONLY when playing with Kwark
+            botHealth = 3000;
         } else if (selectedCharacter.name === 'Boer Bert') {
-            botHealth = 6000; // Bots have 6000 health ONLY when playing with Boer Bert
+            botHealth = 6000;
         } else if (selectedCharacter.name === 'Hank') {
-            botHealth = 12000; // Bots have 12000 health ONLY when playing with Hank
+            botHealth = 12000;
         } else if (selectedCharacter.name === 'Fang') {
-            botHealth = 8100; // Bots have 8100 health ONLY when playing with Fang
+            botHealth = 8100;
         } else if (selectedCharacter.name === 'Mr. Bacon') {
-            botHealth = 8700; // Bots have 8700 health ONLY when playing with Mr. Bacon
+            botHealth = 8700;
         } else if (selectedCharacter.name === 'Amir') {
-            botHealth = 11000; // Bots have 11000 health ONLY when playing with Amir
+            botHealth = 11000;
         } else if (selectedCharacter.name === 'Kaas') {
-            botHealth = 12500; // Bots have 12500 health ONLY when playing with Kaas
-        } else if (selectedCharacter.name === 'Yesper') {
-            botHealth = 12000; // Bots have 12000 health ONLY when playing with Kaas
+            botHealth = 12500;
         }
     }
-    for (let i = 0; i < numBots - 1; i++) { // One less bot
+    for (let i = 0; i < numBots - 1; i++) {
         const x = randomIntFromRange(50, canvas.width - 50);
         const y = randomIntFromRange(50, canvas.height - 50);
         createBot(x, y, botHealth);
     }
-
     // Create player as one of the bots
     bots.push({
         x: canvas.width / 2,
@@ -135,7 +130,7 @@ function initializeBots() {
         health: selectedCharacter ? selectedCharacter.health : 2800,
         color: selectedCharacter ? selectedCharacter.color : 'lightblue',
         canShoot: true,
-        isPlayer: true, // Flag to indicate it's the player
+        isPlayer: true,
         lastShotTime: 0,
         targetX: canvas.width / 2,
         targetY: canvas.height / 2
@@ -150,20 +145,16 @@ function drawBots() {
         ctx.fillStyle = bot.color;
         ctx.fill();
         ctx.closePath();
-        //drawHealthBar(bot.x, bot.y - bot.radius - 5, bot.health, 75, bot.color); //remove health bar
     });
 }
 
 // Function to move bots
 function moveBots() {
     bots.forEach(bot => {
-        if (!bot.isPlayer) { // Only move bots that are not the player
-            // Move towards the target
+        if (!bot.isPlayer) {
             const angle = Math.atan2(bot.targetY - bot.y, bot.targetX - bot.x);
             bot.x += Math.cos(angle) * botSpeed;
             bot.y += Math.sin(angle) * botSpeed;
-
-            // If close to the target, set a new target
             const distanceToTarget = Math.hypot(bot.targetX - bot.x, bot.targetY - bot.y);
             if (distanceToTarget < 10) {
                 bot.targetX = randomIntFromRange(50, canvas.width - 50);
@@ -183,9 +174,9 @@ function botShoot(bot) {
             y: bot.y,
             angle: angle,
             radius: projectileRadius,
-            source: 'bot' // Indicate that the projectile is from a bot
+            source: 'bot'
         });
-        bot.lastShotTime = currentTime; // Update last shot time
+        bot.lastShotTime = currentTime;
     }
 }
 
@@ -195,18 +186,18 @@ function isPlayerInBush() {
     for (const bush of bushes) {
         const distance = Math.hypot(playerBot.x - bush.x, playerBot.y - bush.y);
         if (distance < playerRadius + bush.radius) {
-            return true; // Player is in this bush
+            return true;
         }
     }
-    return false; // Player is not in any bush
+    return false;
 }
 
 // Function to handle bot AI and shooting
 function handleBotAI() {
     bots.forEach(bot => {
-        if (!bot.isPlayer) { // Bots shoot at the player
+        if (!bot.isPlayer) {
             const distanceToPlayer = Math.hypot(playerX - bot.x, playerY - bot.y);
-            if (distanceToPlayer <= botAttackRange && !isPlayerInBush()) { // Check if player is in a bush
+            if (distanceToPlayer <= botAttackRange && !isPlayerInBush()) {
                 botShoot(bot);
             }
         }
@@ -220,7 +211,7 @@ function createProjectile(x, y, angle, source) {
         y: y,
         angle: angle,
         radius: projectileRadius,
-        source: source // Indicate the source of the projectile
+        source: source
     });
 }
 
@@ -229,7 +220,7 @@ function drawProjectiles() {
     projectiles.forEach(projectile => {
         ctx.beginPath();
         ctx.arc(projectile.x, projectile.y, projectile.radius, 0, Math.PI * 2);
-        ctx.fillStyle = projectile.source === 'player' ? 'yellow' : 'white'; // Different color for bot projectiles
+        ctx.fillStyle = projectile.source === 'player' ? 'yellow' : 'white';
         ctx.fill();
         ctx.closePath();
     });
@@ -240,15 +231,14 @@ function moveProjectiles() {
     projectiles.forEach((projectile, projectileIndex) => {
         projectile.x += Math.cos(projectile.angle) * projectileSpeed;
         projectile.y += Math.sin(projectile.angle) * projectileSpeed;
-
         // Check for collision with walls
         for (const wall of walls) {
             if (projectile.x + projectile.radius > wall.x &&
                 projectile.x - projectile.radius < wall.x + wall.width &&
                 projectile.y + projectile.radius > wall.y &&
                 projectile.y - projectile.radius < wall.y + wall.height) {
-                projectiles.splice(projectileIndex, 1); // Remove projectile upon collision
-                return; // Exit the loop after collision
+                projectiles.splice(projectileIndex, 1);
+                return;
             }
         }
     });
@@ -260,22 +250,16 @@ canvas.addEventListener('mousemove', (event) => {
         const rect = canvas.getBoundingClientRect();
         const mouseX = event.clientX - rect.left;
         const mouseY = event.clientY - rect.top;
-
-        // Find the player bot
         const playerBot = bots.find(bot => bot.isPlayer);
-
         const angle = Math.atan2(mouseY - playerBot.y, mouseX - playerBot.x);
         const targetX = playerBot.x + Math.cos(angle) * playerSpeed;
         const targetY = playerBot.y + Math.sin(angle) * playerSpeed;
-
         if (targetX > playerRadius && targetX < canvas.width - playerRadius) {
             playerBot.x = targetX;
         }
         if (targetY > playerRadius && targetY < canvas.height - playerRadius) {
             playerBot.y = targetY;
         }
-
-        // Update global player position
         playerX = playerBot.x;
         playerY = playerBot.y;
     }
@@ -285,10 +269,8 @@ canvas.addEventListener('mousemove', (event) => {
 canvas.addEventListener('click', (event) => {
     if (gameState === 'playing') {
         const playerBot = bots.find(bot => bot.isPlayer);
-
         let angle;
         if (aimbotEnabled) {
-            // Find the closest bot
             let closestBot = null;
             let minDist = Infinity;
             bots.forEach(bot => {
@@ -303,7 +285,6 @@ canvas.addEventListener('click', (event) => {
             if (closestBot) {
                 angle = Math.atan2(closestBot.y - playerBot.y, closestBot.x - playerBot.x);
             } else {
-                // Fallback to mouse if no bots
                 const rect = canvas.getBoundingClientRect();
                 const mouseX = event.clientX - rect.left;
                 const mouseY = event.clientY - rect.top;
@@ -320,8 +301,6 @@ canvas.addEventListener('click', (event) => {
         const rect = canvas.getBoundingClientRect();
         const mouseX = event.clientX - rect.left;
         const mouseY = event.clientY - rect.top;
-
-        // Check if "Return to Home Screen" button is clicked
         if (mouseX >= canvas.width / 2 - 100 && mouseX <= canvas.width / 2 + 100 &&
             mouseY >= canvas.height / 2 + 50 && mouseY <= canvas.height / 2 + 90) {
             resetGame();
@@ -330,21 +309,16 @@ canvas.addEventListener('click', (event) => {
         const rect = canvas.getBoundingClientRect();
         const mouseX = event.clientX - rect.left;
         const mouseY = event.clientY - rect.top;
-
-        // Check if "Replay" button is clicked
         if (mouseX >= canvas.width / 2 - 150 && mouseX <= canvas.width / 2 - 50 &&
             mouseY >= canvas.height / 2 + 50 && mouseY <= canvas.height / 2 + 90) {
-            // Replay the game
             gameState = 'playing';
             initializeBots();
             initializeWallsAndBushes();
-            gameOver = false; // Reset game over state
-            victory = false; // Reset victory state
+            gameOver = false;
+            victory = false;
             const playerBot = bots.find(bot => bot.isPlayer);
             playerBot.health = selectedCharacter ? selectedCharacter.health : 2800;
-        }
-        // Check if "Quit and Go to Menu" button is clicked
-        else if (mouseX >= canvas.width / 2 + 50 && mouseX <= canvas.width / 2 + 150 &&
+        } else if (mouseX >= canvas.width / 2 + 50 && mouseX <= canvas.width / 2 + 150 &&
             mouseY >= canvas.height / 2 + 50 && mouseY <= canvas.height / 2 + 90) {
             resetGame();
         }
@@ -353,13 +327,10 @@ canvas.addEventListener('click', (event) => {
 
 // Function to initialize walls and bushes with random positions
 function initializeWallsAndBushes() {
-    walls.length = 0; // Clear existing walls
-    bushes.length = 0; // Clear existing bushes
-
-    const numWalls = 10; // Number of walls
-    const numBushes = 6; // Number of bushes
-
-    // Create random walls
+    walls.length = 0;
+    bushes.length = 0;
+    const numWalls = 10;
+    const numBushes = 6;
     for (let i = 0; i < numWalls; i++) {
         const width = randomIntFromRange(10, 50);
         const height = randomIntFromRange(50, 200);
@@ -367,8 +338,6 @@ function initializeWallsAndBushes() {
         const y = randomIntFromRange(0, canvas.height - height);
         walls.push({ x: x, y: y, width: width, height: height });
     }
-
-    // Create random bushes
     for (let i = 0; i < numBushes; i++) {
         const radius = randomIntFromRange(30, 70);
         const x = randomIntFromRange(0, canvas.width - radius * 2);
@@ -406,8 +375,6 @@ function drawVictoryText() {
     ctx.textAlign = 'center';
     ctx.fillStyle = 'green';
     ctx.fillText(text, x, y);
-
-    // Draw "Return to Home Screen" button
     ctx.fillStyle = 'white';
     ctx.font = '20px Arial';
     ctx.fillText('Return to Home Screen', canvas.width / 2, canvas.height / 2 + 75);
@@ -415,26 +382,19 @@ function drawVictoryText() {
 
 // Function to handle collisions
 function handleCollisions() {
-    // Projectile and bot collision
     projectiles.forEach((projectile, projectileIndex) => {
-        if (projectile.source === 'player') { // Only player projectiles can damage bots
+        if (projectile.source === 'player') {
             bots.forEach((bot, botIndex) => {
-                if (!bot.isPlayer) { // Don't collide with the player
+                if (!bot.isPlayer) {
                     const distance = Math.hypot(projectile.x - bot.x, projectile.y - bot.y);
                     if (distance < projectile.radius + bot.radius) {
                         let damage = selectedCharacter.damage;
                         if (superBulletDamage) {
-                            damage = 99999; // Super bullet damage cheat
+                            damage = 99999;
                         } else {
-                            if (selectedCharacter.name === 'Colt') {
-                                damage = 360;
-                            }
-                            if (selectedCharacter.name === 'El Primo') {
-                                damage = 400;
-                            }
-                            if (selectedCharacter.name === 'Jessie') {
-                                damage = 1000;
-                            }
+                            if (selectedCharacter.name === 'Colt') damage = 360;
+                            if (selectedCharacter.name === 'El Primo') damage = 400;
+                            if (selectedCharacter.name === 'Jessie') damage = 1000;
                         }
                         bot.health -= damage;
                         projectiles.splice(projectileIndex, 1);
@@ -449,84 +409,64 @@ function handleCollisions() {
             });
         }
     });
-
-    // Projectile and player collision
     projectiles.forEach((projectile, projectileIndex) => {
-        if (projectile.source === 'bot') { // Only bot projectiles can damage the player
+        if (projectile.source === 'bot') {
             const playerBot = bots.find(bot => bot.isPlayer);
             const distance = Math.hypot(projectile.x - playerBot.x, projectile.y - playerBot.y);
             if (distance < projectile.radius + playerRadius) {
                 let randomBotDamage = randomIntFromRange(200, 600);
-                randomBotDamage = Math.min(randomBotDamage, 350); // Ensure damage is not more than 350
-                playerBot.health -= randomBotDamage; // Decrease player health
+                randomBotDamage = Math.min(randomBotDamage, 350);
+                playerBot.health -= randomBotDamage;
                 projectiles.splice(projectileIndex, 1);
             }
         }
     });
-
-    // Bot and player collision
     bots.forEach(bot => {
-        if (!bot.isPlayer) { // Only bots that are not the player
+        if (!bot.isPlayer) {
             const playerBot = bots.find(bot => bot.isPlayer);
             const distance = Math.hypot(playerBot.x - bot.x, playerBot.y - bot.y);
             if (distance < playerRadius + botRadius) {
-                playerBot.health -= 0.1; // Minor contact damage
+                playerBot.health -= 0.1;
             }
         }
     });
 }
 
-// Function to handle game over
+// Function to handle game over and unlocking
 function checkGameOver() {
-    if (gameState !== 'playing') return; // Only check if currently playing
-
+    if (gameState !== 'playing') return;
     const playerBot = bots.find(bot => bot.isPlayer);
-    if (!playerBot) return; // Exit if player not found
-
+    if (!playerBot) return;
     if (playerBot.health <= 0) {
-        playerBot.health = 0; // Prevent negative health
+        playerBot.health = 0;
         gameOver = true;
-        gameState = 'gameOver'; // Ensure game state is set to game over
+        gameState = 'gameOver';
     }
-
-    // Check for victory
     if (bots.filter(bot => !bot.isPlayer).length === 0) {
         victory = true;
-        gameState = 'victory'; // Ensure game state is set to victory
-
+        gameState = 'victory';
         if (selectedCharacter.name === 'Colt' && !characters.some(char => char.name === 'El Primo')) {
-            // Unlock El Primo if playing as Colt
             characters.push({ name: 'El Primo', color: 'darkgreen', damage: 418, health: 6300 });
         } else if (selectedCharacter.name === 'El Primo' && !characters.some(char => char.name === 'Jessie')) {
-            // Unlock Jessie if playing as El Primo
             characters.push({ name: 'Jessie', color: 'orange', damage: 1166, health: 3100 });
         } else if (selectedCharacter.name === 'Jessie' && !characters.some(char => char.name === 'Poco')) {
-            // Unlock Poco if playing as Jessie
             characters.push({ name: 'Poco', color: 'purple', damage: 836, health: 3700 });
         } else if (selectedCharacter.name === 'Poco' && !characters.some(char => char.name === 'Kwark')) {
-            // Unlock Kwark if playing as Poco
             characters.push({ name: 'Kwark', color: 'white', damage: 500, health: 3000 });
         } else if (selectedCharacter.name === 'Kwark' && !characters.some(char => char.name === 'Boer Bert')) {
-            // Unlock Boer Bert if playing as Kwark
             characters.push({ name: 'Boer Bert', color: 'brown', damage: 1700, health: 4200 });
         } else if (selectedCharacter.name === 'Boer Bert' && !characters.some(char => char.name === 'Hank')) {
-            // Unlock Hank if playing as Boer Bert
             characters.push({ name: 'Hank', color: 'blue', damage: 2000, health: 5000 });
         } else if (selectedCharacter.name === 'Hank' && !characters.some(char => char.name === 'Fang')) {
-            // Unlock Fang if playing as Hank
             characters.push({ name: 'Fang', color: 'red', damage: 1360, health: 4300 });
         } else if (selectedCharacter.name === 'Hank' && !characters.some(char => char.name === 'Mr. Bacon')) {
-            // Unlock Mr. Bacon if playing as Hank
             characters.push({ name: 'Mr. Bacon', color: 'pink', damage: 1750, health: 4900 });
         } else if (selectedCharacter.name === 'Mr. Bacon' && !characters.some(char => char.name === 'Amir')) {
-            // Unlock Amir if playing as Mr. Bacon
             characters.push({ name: 'Amir', color: 'gold', damage: 2200, health: 5500 });
         } else if (selectedCharacter.name === 'Amir' && !characters.some(char => char.name === 'Kaas')) {
-            // Unlock Kaas if playing as Amir
             characters.push({ name: 'Kaas', color: 'yellow', damage: 2500, health: 6000 });
-          } else if (selectedCharacter.name === 'Kaas' && !characters.some(char => char.name === 'Yesper')) {
-            // Unlock Yesper if playing as Kaas
-            characters.push({ name: 'Yesper', color: 'red', damage: 3000, health: 6200 });
+        } else if (selectedCharacter.name === 'Kaas' && !characters.some(char => char.name === 'Yesper')) {
+            characters.push({ name: 'Yesper', color: 'lime', damage: 3000, health: 7000 });
         }
     }
 }
@@ -541,17 +481,14 @@ function drawHomeScreen() {
     ctx.textAlign = 'center';
     ctx.fillText('Select Your Character', canvas.width / 2, 50);
 
-    // Draw character options
     characters.forEach((character, index) => {
         const x = canvas.width / (characters.length + 1) * (index + 1);
         const y = 150;
-
         ctx.beginPath();
         ctx.arc(x, y, playerRadius, 0, Math.PI * 2);
         ctx.fillStyle = character.color;
         ctx.fill();
         ctx.closePath();
-
         ctx.fillStyle = 'white';
         ctx.font = '16px Arial';
         ctx.textAlign = 'center';
@@ -568,21 +505,19 @@ canvas.addEventListener('click', (event) => {
         const rect = canvas.getBoundingClientRect();
         const mouseX = event.clientX - rect.left;
         const mouseY = event.clientY - rect.top;
-
         characters.forEach((character, index) => {
             const x = canvas.width / (characters.length + 1) * (index + 1);
             const y = 150;
             const distance = Math.hypot(mouseX - x, mouseY - y);
-
             if (distance < playerRadius) {
                 selectedCharacter = character;
-                playerDamage = character.damage; // set player damage
-                playerHealth = character.health; // set player health
+                playerDamage = character.damage;
+                playerHealth = character.health;
                 gameState = 'playing';
                 initializeBots();
                 initializeWallsAndBushes();
-                gameOver = false; // Reset game over state
-                victory = false; // Reset victory state
+                gameOver = false;
+                victory = false;
             }
         });
     }
@@ -592,8 +527,8 @@ canvas.addEventListener('click', (event) => {
 function resetGame() {
     gameState = 'home';
     selectedCharacter = null;
-    playerDamage = 20; // reset to default damage
-    playerHealth = 2800; // reset to default health
+    playerDamage = 20;
+    playerHealth = 2800;
     bots = [];
     projectiles = [];
     score = 0;
@@ -608,44 +543,26 @@ function update() {
     if (gameState === 'home') {
         drawHomeScreen();
     } else if (gameState === 'playing') {
-        // Draw walls and bushes
         drawWalls();
         drawBushes();
-
         if (!gamePaused) {
-            // Move and draw bots
             moveBots();
             drawBots();
-
-            // Handle bot AI and shooting
             handleBotAI();
-
-            // Move and draw projectiles
             moveProjectiles();
             drawProjectiles();
-
-            // Draw player
             drawPlayer();
-
-            // Handle collisions
             handleCollisions();
-
-            // Check game over
             checkGameOver();
         } else {
-            // Draw bots and player in their current positions
             drawBots();
             drawProjectiles();
             drawPlayer();
         }
-
-        // Display score
         ctx.fillStyle = 'white';
         ctx.font = '16px Arial';
         ctx.textAlign = 'left';
         ctx.fillText('Score: ' + score, 10, 20);
-
-        // Display health
         const playerBot = bots.find(bot => bot.isPlayer);
         if (playerBot) {
             ctx.fillStyle = 'white';
@@ -660,11 +577,9 @@ function update() {
         ctx.font = '30px Arial';
         ctx.textAlign = 'center';
         ctx.fillText('Game Over! Score: ' + score, canvas.width / 2, canvas.height / 2);
-
         ctx.font = '20px Arial';
         ctx.fillText('Replay', canvas.width / 2 - 100, canvas.height / 2 + 75);
         ctx.fillText('Quit and Go to Menu', canvas.width / 2 + 100, canvas.height / 2 + 75);
-
     } else if (gameState === 'victory') {
         ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -680,15 +595,12 @@ function update() {
         ctx.globalAlpha = 1.0;
         ctx.strokeStyle = 'white';
         ctx.strokeRect(canvas.width / 2 - 150, canvas.height / 2 - 80, 300, 160);
-
         ctx.fillStyle = 'white';
         ctx.font = '22px Arial';
         ctx.textAlign = 'center';
         ctx.fillText('Enter 4-digit code', canvas.width / 2, canvas.height / 2 - 30);
-
         ctx.font = '32px monospace';
         ctx.fillText(cheatCodeInput.padEnd(4, '_'), canvas.width / 2, canvas.height / 2 + 10);
-
         ctx.font = '16px Arial';
         ctx.fillText('ESC to close', canvas.width / 2, canvas.height / 2 + 50);
         ctx.restore();
@@ -698,7 +610,7 @@ function update() {
     if (infiniteHealth) {
         const playerBot = bots.find(bot => bot.isPlayer);
         if (playerBot) {
-            playerBot.health = 999999; // Or any very high value
+            playerBot.health = 999999;
         }
     }
 
@@ -708,7 +620,6 @@ function update() {
         if (playerBot) {
             let angle;
             if (aimbotEnabled) {
-                // Find the closest bot
                 let closestBot = null;
                 let minDist = Infinity;
                 bots.forEach(bot => {
@@ -723,12 +634,11 @@ function update() {
                 if (closestBot) {
                     angle = Math.atan2(closestBot.y - playerBot.y, closestBot.x - playerBot.x);
                 } else {
-                    angle = 0; // Default angle if no bots
+                    angle = 0;
                 }
             } else {
-                angle = 0; // Default angle if no aimbot
+                angle = 0;
             }
-            // Shoot every frame (you can add a cooldown if you want)
             createProjectile(playerBot.x, playerBot.y, angle, 'player');
         }
     }
@@ -736,36 +646,31 @@ function update() {
     requestAnimationFrame(update);
 }
 
-// Add these variables at the top, after other game states and variables
+// Cheat variables
 let cheatMenuOpen = false;
 let cheatCodeInput = "";
 let gamePaused = false;
 let infiniteHealth = false;
 let aimbotEnabled = false;
-let autoShootEnabled = false; // Add this variable for auto shoot
-let superBulletDamage = false; // Add this variable at the top with other cheat variables
+let autoShootEnabled = false;
+let superBulletDamage = false;
 
-// Add this event listener for keyboard shortcuts and cheat menu input
+// Cheat menu input handling
 document.addEventListener('keydown', (event) => {
-    // Always allow ESC to close the cheat menu
     if (cheatMenuOpen && event.key === "Escape") {
         cheatMenuOpen = false;
         cheatCodeInput = "";
-        gamePaused = false; // Unpause when menu closes
-        event.preventDefault();
-        return; // Stop further processing
-    }
-
-    // Open cheat menu with CTRL+SHIFT+D
-    if (event.ctrlKey && event.shiftKey && event.code === 'KeyD' && gameState === 'playing') {
-        cheatMenuOpen = true;
-        cheatCodeInput = "";
-        gamePaused = true; // Pause the game when menu opens
+        gamePaused = false;
         event.preventDefault();
         return;
     }
-
-    // If cheat menu is open, handle input
+    if (event.ctrlKey && event.shiftKey && event.code === 'KeyD' && gameState === 'playing') {
+        cheatMenuOpen = true;
+        cheatCodeInput = "";
+        gamePaused = true;
+        event.preventDefault();
+        return;
+    }
     if (cheatMenuOpen) {
         if (/^[0-9]$/.test(event.key) && cheatCodeInput.length < 4) {
             cheatCodeInput += event.key;
@@ -773,15 +678,14 @@ document.addEventListener('keydown', (event) => {
             cheatCodeInput = cheatCodeInput.slice(0, -1);
         } else if (event.key === "Enter" && cheatCodeInput.length === 4) {
             if (cheatCodeInput === "0413") {
-                bots = bots.filter(bot => bot.isPlayer); // Instant victory
+                bots = bots.filter(bot => bot.isPlayer);
             } else if (cheatCodeInput === "3451") {
-                infiniteHealth = true; // Enable infinite health
+                infiniteHealth = true;
             } else if (cheatCodeInput === "1481") {
-                aimbotEnabled = true; // Enable aimbot
+                aimbotEnabled = true;
             } else if (cheatCodeInput === "9912") {
-                autoShootEnabled = true; // Enable auto shoot
+                autoShootEnabled = true;
             } else if (cheatCodeInput === "9191") {
-                // Instant victory and unlock all characters
                 bots = bots.filter(bot => bot.isPlayer);
                 const allChars = [
                     { name: 'El Primo', color: 'darkgreen', damage: 418, health: 6300 },
@@ -793,8 +697,8 @@ document.addEventListener('keydown', (event) => {
                     { name: 'Fang', color: 'red', damage: 1360, health: 4300 },
                     { name: 'Mr. Bacon', color: 'pink', damage: 1750, health: 4900 },
                     { name: 'Amir', color: 'gold', damage: 2200, health: 5500 },
-                    { name: 'Kaas', color: 'yellow', damage: 2500, health: 6000 }
-                    { name: 'Yesper', color: 'red', damage: 3000, health: 6200 }
+                    { name: 'Kaas', color: 'yellow', damage: 2500, health: 6000 },
+                    { name: 'Yesper', color: 'lime', damage: 3000, health: 7000 }
                 ];
                 allChars.forEach(char => {
                     if (!characters.some(c => c.name === char.name)) {
@@ -802,11 +706,11 @@ document.addEventListener('keydown', (event) => {
                     }
                 });
             } else if (cheatCodeInput === "0136") {
-                superBulletDamage = true; // Enable super bullet damage
+                superBulletDamage = true;
             }
             cheatMenuOpen = false;
             cheatCodeInput = "";
-            gamePaused = false; // Unpause after code entry
+            gamePaused = false;
         }
         event.preventDefault();
     }
