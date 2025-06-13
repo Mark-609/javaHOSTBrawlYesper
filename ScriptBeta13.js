@@ -115,6 +115,8 @@ function initializeBots() {
             botHealth = 11000;
         } else if (selectedCharacter.name === 'Kaas') {
             botHealth = 12500;
+        } else if (selectedCharacter.name === 'Yesper') {
+            botHealth = 12000;
         }
     }
     for (let i = 0; i < numBots - 1; i++) {
@@ -466,7 +468,7 @@ function checkGameOver() {
         } else if (selectedCharacter.name === 'Amir' && !characters.some(char => char.name === 'Kaas')) {
             characters.push({ name: 'Kaas', color: 'yellow', damage: 2500, health: 6000 });
         } else if (selectedCharacter.name === 'Kaas' && !characters.some(char => char.name === 'Yesper')) {
-            characters.push({ name: 'Yesper', color: 'lime', damage: 3000, health: 7000 });
+            characters.push({ name: 'Yesper', color: 'red', damage: 3000, health: 7000 });
         }
     }
 }
@@ -698,7 +700,7 @@ document.addEventListener('keydown', (event) => {
                     { name: 'Mr. Bacon', color: 'pink', damage: 1750, health: 4900 },
                     { name: 'Amir', color: 'gold', damage: 2200, health: 5500 },
                     { name: 'Kaas', color: 'yellow', damage: 2500, health: 6000 },
-                    { name: 'Yesper', color: 'lime', damage: 3000, health: 7000 }
+                    { name: 'Yesper', color: 'red', damage: 3000, health: 7000 }
                 ];
                 allChars.forEach(char => {
                     if (!characters.some(c => c.name === char.name)) {
